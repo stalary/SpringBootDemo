@@ -58,13 +58,15 @@ public class UserController {
     @GetMapping(value = "/login")
     public Result userLogin(
             @RequestParam String username,
-            @RequestParam String password) {
+            @RequestParam String password,
+            HttpServletResponse response) {
         User u = userService.findByUserName(username);
         if (u == null) {
             return ResultUtil.error(1, "不存在该用户！");
         }
         String ticket = u.getTicket();
         Cookie cookie = new Cookie("ticket", ticket);
+        response.addCookie(cookie);
         cookie.setPath("/");
         if (u.getPassword().equals(MD5Utils.MD5(MD5Utils.MD5(password) + u.getSalt()))) {
             return ResultUtil.success();
