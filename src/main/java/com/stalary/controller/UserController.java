@@ -9,6 +9,7 @@ package com.stalary.controller;
 import com.stalary.aspect.HttpAspect;
 import com.stalary.domain.Result;
 import com.stalary.domain.User;
+import com.stalary.handle.UserContextHolder;
 import com.stalary.service.UserService;
 import com.stalary.utils.MD5Utils;
 import com.stalary.utils.ResultUtil;
@@ -52,7 +53,7 @@ public class UserController {
 
     @GetMapping(value = "/get")
     public Result getUser() {
-        return ResultUtil.success(HttpAspect.user.get());
+        return ResultUtil.success(UserContextHolder.get());
     }
 
     @GetMapping(value = "/login")
@@ -69,8 +70,18 @@ public class UserController {
         response.addCookie(cookie);
         cookie.setPath("/");
         if (u.getPassword().equals(MD5Utils.MD5(MD5Utils.MD5(password) + u.getSalt()))) {
-            return ResultUtil.success();
+            return ResultUtil.success("登陆成功");
         }
         return ResultUtil.error(2, "密码错误！");
+    }
+
+    @GetMapping(value = "logout")
+    public Result userLogout(
+            HttpServletResponse response) {
+        Cookie cookie = new Cookie("ticket", "");
+        response.addCookie(cookie);
+        cookie.setPath("/");
+        UserContextHolder.remove();
+        return ResultUtil.success("退出成功");
     }
 }
