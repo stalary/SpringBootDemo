@@ -1,20 +1,16 @@
 package com.stalary.aspect;
 
-import com.stalary.domain.User;
-import com.stalary.handle.UserContextHolder;
-import com.stalary.service.UserService;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSessionAttributeListener;
+import java.util.Arrays;
 
 
 /**
@@ -24,47 +20,35 @@ import javax.servlet.http.HttpSessionAttributeListener;
  */
 @Aspect
 @Component
+@Slf4j
 public class HttpAspect {
 
-    private final static Logger logger = LoggerFactory.getLogger(HttpAspect.class);
-
-    @Autowired
-    private UserService userService;
-
-    @Pointcut("execution(* com.stalary.controller.*.*(..))")
-    public void log() {
+    @Around("@annotation(requestMapping)")
+    public Object requestMappingAdvice(ProceedingJoinPoint thisJoinPoint, RequestMapping requestMapping) throws Throwable {
+        String path = Arrays.toString(requestMapping.value());
+        return process(thisJoinPoint, path);
     }
 
-    @Before("log()")
-    public void doBefore(JoinPoint joinPoint) {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        logger.info("URI: " + request.getRequestURI());
+    @Around("@annotation(getMapping)")
+    public Object getMappingAdvice(ProceedingJoinPoint thisJoinPoint, GetMapping getMapping) throws Throwable {
+        String path = Arrays.toString(getMapping.value());
+        return process(thisJoinPoint, path);
     }
 
-    @After("log()")
-    public void doAfter() {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        if (request.getRequestURI().contains("register") || request.getRequestURI().contains("login")) {
-            Cookie[] cookies = request.getCookies();
-            for (Cookie cookie : cookies) {
-                if ("ticket".equals(cookie.getName())) {
-                    String value = cookie.getValue();
-                    User login = userService.findByTicket(value);
-                    request.getSession().setAttribute("user", login);
-                    logger.info("user: " + login);
-                }
-            }
-        }
-        if (request.getRequestURI().contains("logout")) {
-            request.getSession().removeAttribute("user");
-        }
+    @Around("@annotation(postMapping)")
+    public Object getMappingAdvice(ProceedingJoinPoint thisJoinPoint, PostMapping postMapping) throws Throwable {
+        String path = Arrays.toString(postMapping.value());
+        return process(thisJoinPoint, path);
     }
 
-    @AfterReturning(returning = "object", pointcut = "log()")
-    public void doAfterReturning(Object object) {
-        logger.info("response={}", object.toString());
+    private Object process(ProceedingJoinPoint pjp, String path) throws Throwable {
+        long startTime = System.currentTimeMillis();
+        Object result = pjp.proceed();
+        long endTime = System.currentTimeMillis();
+        MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
+        String logName = methodSignature.getMethod().getName() + "(" + path + ")";
+        log.info(logName + ".time=" + (endTime - startTime));
+        log.info(logName + " Args: " + Arrays.toString(pjp.getArgs()));
+        return result;
     }
-
 }

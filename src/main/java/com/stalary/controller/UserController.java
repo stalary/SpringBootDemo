@@ -6,7 +6,6 @@
  */
 package com.stalary.controller;
 
-import com.stalary.aspect.HttpAspect;
 import com.stalary.domain.Result;
 import com.stalary.domain.User;
 import com.stalary.handle.UserContextHolder;
