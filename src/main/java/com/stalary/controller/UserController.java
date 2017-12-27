@@ -10,6 +10,7 @@ import com.stalary.domain.Result;
 import com.stalary.domain.User;
 import com.stalary.handle.UserContextHolder;
 import com.stalary.service.UserService;
+import com.stalary.utils.DigestUtil;
 import com.stalary.utils.MD5Utils;
 import com.stalary.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class UserController {
             @RequestBody User register,
             HttpServletResponse response) {
         String ticket = UUID.randomUUID().toString().replace("-", "");
-        Cookie cookie = new Cookie("ticket", ticket);
+        Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
         response.addCookie(cookie);
         cookie.setPath("/");
         User newUser = new User();
@@ -65,7 +66,7 @@ public class UserController {
             return ResultUtil.error(1, "不存在该用户！");
         }
         String ticket = u.getTicket();
-        Cookie cookie = new Cookie("ticket", ticket);
+        Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
         response.addCookie(cookie);
         cookie.setPath("/");
         if (u.getPassword().equals(MD5Utils.MD5(MD5Utils.MD5(password) + u.getSalt()))) {
@@ -77,7 +78,8 @@ public class UserController {
     @GetMapping(value = "logout")
     public Result userLogout(
             HttpServletResponse response) {
-        Cookie cookie = new Cookie("ticket", "");
+        Cookie cookie = new Cookie("ticket", null);
+        cookie.setMaxAge(0);
         response.addCookie(cookie);
         cookie.setPath("/");
         UserContextHolder.remove();

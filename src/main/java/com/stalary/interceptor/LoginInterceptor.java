@@ -7,11 +7,11 @@
 package com.stalary.interceptor;
 
 import com.stalary.domain.User;
-import com.stalary.handle.UserContextHolder;
 import com.stalary.service.UserService;
+import com.stalary.utils.DigestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -37,7 +37,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("ticket".equals(cookie.getName())) {
-                    String value = cookie.getValue();
+                    String value = null;
+                    if (!StringUtils.isEmpty(cookie.getValue())) {
+                        value = DigestUtil.Decrypt(cookie.getValue());
+                    }
                     User login = userService.findByTicket(value);
                     request.getSession().setAttribute("user", login);
                     log.info("user: " + login);
