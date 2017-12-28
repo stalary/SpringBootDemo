@@ -6,18 +6,25 @@
  */
 package com.stalary.interceptor;
 
+import com.stalary.annotation.LoginRequired;
 import com.stalary.domain.User;
+import com.stalary.enums.ResultEnum;
+import com.stalary.exception.GirlException;
+import com.stalary.handle.UserContextHolder;
 import com.stalary.service.UserService;
 import com.stalary.utils.DigestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 /**
  * LoginInterceptor
@@ -33,28 +40,40 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("ticket".equals(cookie.getName())) {
-                    String value = null;
-                    if (!StringUtils.isEmpty(cookie.getValue())) {
-                        value = DigestUtil.Decrypt(cookie.getValue());
-                    }
-                    User login = userService.findByTicket(value);
-                    request.getSession().setAttribute("user", login);
-                    log.info("user: " + login);
-                }
-            }
-        }
         // 退出时删除session
         if (request.getRequestURI().contains("logout")) {
-            request.getSession().removeAttribute("user");
+            request.getSession(false).removeAttribute("user");
+            return true;
+        }
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if ("ticket".equals(cookie.getName())) {
+                String value = null;
+                if (!StringUtils.isEmpty(cookie.getValue())) {
+                    value = DigestUtil.Decrypt(cookie.getValue());
+                }
+                User login = userService.findByTicket(value);
+                request.getSession().setAttribute("user", login);
+                log.info("ticket: " + value);
+                log.info("user: " + login);
+            }
+        }
+        Method method = ((HandlerMethod)handler).getMethod();
+        boolean isLoginRequired = isAnnotationPresent(method, LoginRequired.class);
+        if (isLoginRequired) {
+            if (request.getSession().getAttribute("user") == null) {
+                UserContextHolder.remove();
+                throw new GirlException(ResultEnum.NEED_LOGIN);
+            }
         }
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    }
+
+    private boolean isAnnotationPresent(Method method, Class<? extends Annotation> annotationClass) {
+        return method.getDeclaringClass().isAnnotationPresent(annotationClass) || method.isAnnotationPresent(annotationClass);
     }
 }

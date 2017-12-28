@@ -6,6 +6,7 @@
  */
 package com.stalary.controller;
 
+import com.stalary.annotation.LoginRequired;
 import com.stalary.domain.Result;
 import com.stalary.domain.User;
 import com.stalary.handle.UserContextHolder;
@@ -51,6 +52,7 @@ public class UserController {
         return ResultUtil.success(newUser);
     }
 
+    @LoginRequired
     @GetMapping(value = "/get")
     public Result getUser() {
         return ResultUtil.success(UserContextHolder.get());
