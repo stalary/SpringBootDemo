@@ -2,7 +2,7 @@ package com.stalary.service;
 
 import com.stalary.domain.Girl;
 import com.stalary.enums.ResultEnum;
-import com.stalary.exception.GirlException;
+import com.stalary.exception.MyException;
 import com.stalary.repository.GirlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,9 +39,9 @@ public class GirlService {
         Girl girl = girlRepository.findOne(id);
         Integer age = girl.getAge();
         if (age < 10) {
-            throw new GirlException(ResultEnum.PRIMARY_SCHOOL);
+            throw new MyException(ResultEnum.PRIMARY_SCHOOL);
         } else if (age > 10 && age < 16) {
-            throw new GirlException(ResultEnum.MIDDLE_SCHOOL);
+            throw new MyException(ResultEnum.MIDDLE_SCHOOL);
         }
     }
 

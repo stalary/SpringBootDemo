@@ -1,7 +1,7 @@
 package com.stalary.handle;
 
 import com.stalary.domain.Result;
-import com.stalary.exception.GirlException;
+import com.stalary.exception.MyException;
 import com.stalary.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +22,9 @@ public class ExceptionHandle {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public Result handle(Exception e) {
-        if (e instanceof GirlException) {
-            GirlException girlException = (GirlException) e;
-            return ResultUtil.error(girlException.getCode(), girlException.getMessage());
+        if (e instanceof MyException) {
+            MyException myException = (MyException) e;
+            return ResultUtil.error(myException.getCode(), myException.getMessage());
         } else {
             logger.error("[系统异常] {}", e);
             return ResultUtil.error(-1, "未知错误");

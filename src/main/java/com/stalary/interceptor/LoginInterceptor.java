@@ -9,7 +9,7 @@ package com.stalary.interceptor;
 import com.stalary.annotation.LoginRequired;
 import com.stalary.domain.User;
 import com.stalary.enums.ResultEnum;
-import com.stalary.exception.GirlException;
+import com.stalary.exception.MyException;
 import com.stalary.handle.UserContextHolder;
 import com.stalary.service.UserService;
 import com.stalary.utils.DigestUtil;
@@ -63,7 +63,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         if (isLoginRequired) {
             if (request.getSession().getAttribute("user") == null) {
                 UserContextHolder.remove();
-                throw new GirlException(ResultEnum.NEED_LOGIN);
+                throw new MyException(ResultEnum.NEED_LOGIN);
             }
         }
         return true;

@@ -7,11 +7,11 @@ import com.stalary.enums.ResultEnum;
  * @description
  * @date 2017/10/25
  */
-public class GirlException extends RuntimeException {
+public class MyException extends RuntimeException {
 
     private Integer code;
 
-    public GirlException(ResultEnum resultEnum) {
+    public MyException(ResultEnum resultEnum) {
         super(resultEnum.getMsg());
         this.code = resultEnum.getCode();
     }
