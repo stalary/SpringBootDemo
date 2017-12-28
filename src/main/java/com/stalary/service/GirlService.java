@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * @author Stalary
@@ -51,5 +52,12 @@ public class GirlService {
      */
     public Girl findOne(Integer id) {
         return girlRepository.findOne(id);
+    }
+
+    /**
+     * 通过用户id，查找名下的女生
+     */
+    public List<Girl> findByUserId(Integer id) {
+        return girlRepository.findByUserId(id);
     }
 }

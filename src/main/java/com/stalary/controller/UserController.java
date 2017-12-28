@@ -10,6 +10,7 @@ import com.stalary.annotation.LoginRequired;
 import com.stalary.domain.Result;
 import com.stalary.domain.User;
 import com.stalary.handle.UserContextHolder;
+import com.stalary.service.GirlService;
 import com.stalary.service.UserService;
 import com.stalary.utils.DigestUtil;
 import com.stalary.utils.MD5Utils;
@@ -33,6 +34,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private GirlService girlService;
 
     @PostMapping(value = "/register")
     public Result userRegister(
@@ -86,5 +90,13 @@ public class UserController {
         cookie.setPath("/");
         UserContextHolder.remove();
         return ResultUtil.success("退出成功");
+    }
+
+    @LoginRequired
+    @GetMapping(value = "/getGirls")
+    public Result getGirls() {
+        User user = UserContextHolder.get();
+        Integer userId = user.getId();
+        return ResultUtil.success(girlService.findByUserId(userId));
     }
 }

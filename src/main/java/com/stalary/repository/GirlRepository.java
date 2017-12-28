@@ -20,4 +20,5 @@ public interface GirlRepository extends JpaRepository<Girl,Integer>{
      */
     List<Girl> findByAge(Integer age);
 
+    List<Girl> findByUserId(Integer id);
 }

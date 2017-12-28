@@ -15,5 +15,4 @@ public class StartApplication {
 		app.run(args);
 	}
 
-
 }
