@@ -26,14 +26,6 @@
 
 	<dependencies>
 
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.18</version>
-            <scope>provided</scope>
-        </dependency>
-
 		<!-- https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core -->
 		<dependency>
 			<groupId>com.datastax.cassandra</groupId>

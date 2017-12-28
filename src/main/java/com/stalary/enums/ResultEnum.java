@@ -6,12 +6,11 @@ package com.stalary.enums;
  * @date 2017/10/25
  */
 public enum ResultEnum {
-    UNKNOW_ERROR(-1,"未知错误"),
-    SUCCESS(0,"成功"),
-    NEED_LOGIN(-1,"请登录"),
-    PRIMARY_SCHOOL(100,"你可能还在上小学"),
-    MIDDLE_SCHOOL(101,"你可能在上初中");
-    ;
+    UNKNOW_ERROR(-2, "未知错误"),
+    SUCCESS(0, "成功"),
+    NEED_LOGIN(-3, "未登录"),
+    PRIMARY_SCHOOL(100, "你可能还在上小学"),
+    MIDDLE_SCHOOL(101, "你可能在上初中");
 
     private Integer code;
 

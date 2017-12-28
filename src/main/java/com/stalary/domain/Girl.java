@@ -2,6 +2,7 @@ package com.stalary.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Value;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
