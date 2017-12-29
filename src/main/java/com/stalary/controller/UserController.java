@@ -64,13 +64,12 @@ public class UserController {
         return ResultUtil.success(UserContextHolder.get());
     }
 
-    @ApiOperation(value = "登陆", notes = "传入用户名和密码")
+    @ApiOperation(value = "登陆", notes = "只需要传入用户名和密码")
     @PostMapping(value = "/login")
     public Result userLogin(
-            @RequestParam String username,
-            @RequestParam String password,
+            @RequestBody User login,
             HttpServletResponse response) {
-        User u = userService.findByUserName(username);
+        User u = userService.findByUserName(login.getUsername());
         if (u == null) {
             return ResultUtil.error(1, "不存在该用户！");
         }
@@ -78,7 +77,7 @@ public class UserController {
         Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
         response.addCookie(cookie);
         cookie.setPath("/");
-        if (u.getPassword().equals(MD5Util.MD5(MD5Util.MD5(password) + u.getSalt()))) {
+        if (u.getPassword().equals(MD5Util.MD5(MD5Util.MD5(login.getPassword()) + u.getSalt()))) {
             return ResultUtil.success("登陆成功");
         }
         return ResultUtil.error(2, "密码错误！");
