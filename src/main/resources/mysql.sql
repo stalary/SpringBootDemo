@@ -1,11 +1,11 @@
-CREATE DATABASE dbgirl;
-create table girl
+CREATE DATABASE loginDemo;
+create table book
 (
-	id int auto_increment primary key,
-	user_id int null,
-	age int null,
-	cup_size varchar(1) null,
-	money double not null
+  id int auto_increment
+    primary key,
+  author varchar(255) null,
+  title varchar(255) null,
+  user_id int null
 )ENGINE =InnoDB DEFAULT CHARSET=utf8;
 
 create table user
