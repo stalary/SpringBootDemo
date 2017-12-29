@@ -2,7 +2,7 @@
 使用springboot快速开发的一个小demo
 ### idea需要安装lombok插件
 ### 数据库文件在src/main/resources中
-
+[-项目地址](http://120.24.5.178:8100/swagger-ui.html#/)
 ### 包含功能
 - spring boot
 - jpa
