@@ -10,11 +10,14 @@ import com.stalary.annotation.LoginRequired;
 import com.stalary.domain.Result;
 import com.stalary.domain.User;
 import com.stalary.handle.UserContextHolder;
-import com.stalary.service.GirlService;
+import com.stalary.service.BookService;
 import com.stalary.service.UserService;
 import com.stalary.utils.DigestUtil;
-import com.stalary.utils.MD5Utils;
+import com.stalary.utils.MD5Util;
 import com.stalary.utils.ResultUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +38,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private GirlService girlService;
-
+    @ApiOperation(value = "注册", notes = "只需要传入用户名和密码")
     @PostMapping(value = "/register")
     public Result userRegister(
             @RequestBody User register,
@@ -49,19 +50,21 @@ public class UserController {
         User newUser = new User();
         newUser.setUsername(register.getUsername());
         String salt = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 5);
-        newUser.setPassword(MD5Utils.MD5(MD5Utils.MD5(register.getPassword()) + salt));
+        newUser.setPassword(MD5Util.MD5(MD5Util.MD5(register.getPassword()) + salt));
         newUser.setSalt(salt);
         newUser.setTicket(ticket);
         userService.register(newUser);
         return ResultUtil.success(newUser);
     }
 
+    @ApiOperation(value = "获取一个用户", notes = "测试方法")
     @LoginRequired
     @GetMapping(value = "/get")
     public Result getUser() {
         return ResultUtil.success(UserContextHolder.get());
     }
 
+    @ApiOperation(value = "登陆")
     @GetMapping(value = "/login")
     public Result userLogin(
             @RequestParam String username,
@@ -75,12 +78,13 @@ public class UserController {
         Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
         response.addCookie(cookie);
         cookie.setPath("/");
-        if (u.getPassword().equals(MD5Utils.MD5(MD5Utils.MD5(password) + u.getSalt()))) {
+        if (u.getPassword().equals(MD5Util.MD5(MD5Util.MD5(password) + u.getSalt()))) {
             return ResultUtil.success("登陆成功");
         }
         return ResultUtil.error(2, "密码错误！");
     }
 
+    @ApiOperation(value = "退出")
     @GetMapping(value = "logout")
     public Result userLogout(
             HttpServletResponse response) {
@@ -92,11 +96,4 @@ public class UserController {
         return ResultUtil.success("退出成功");
     }
 
-    @LoginRequired
-    @GetMapping(value = "/getGirls")
-    public Result getGirls() {
-        User user = UserContextHolder.get();
-        Integer userId = user.getId();
-        return ResultUtil.success(girlService.findByUserId(userId));
-    }
 }

@@ -27,12 +27,8 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User findOne(int id) {
-        return userRepository.findOne(id);
-    }
-
-    public User findByTicket(String tikcet) {
-        return userRepository.findByTicket(tikcet);
+    public User findByTicket(String ticket) {
+        return userRepository.findByTicket(ticket);
     }
 
     public User findByUserName(String username) {

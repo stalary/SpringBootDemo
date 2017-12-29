@@ -1,12 +1,5 @@
-META-INF/spring-configuration-metadata.json
-com/stalary/service/GirlService.class
-handle/ExceptionHandle.class
 com/stalary/aspect/HttpAspect.class
-com/stalary/controller/GirlController.class
+META-INF/spring-configuration-metadata.json
 com/stalary/domain/Result.class
 com/stalary/utils/ResultUtil.class
-com/stalary/domain/Girl.class
-com/stalary/GirlApplication.class
 com/stalary/properties/GirlProperties.class
-com/stalary/controller/HelloController.class
-com/stalary/repository/GirlRepository.class

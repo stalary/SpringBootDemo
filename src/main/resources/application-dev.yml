@@ -1,5 +1,14 @@
 server:
-  port: 8081
-girl:
-  cupSize: F
-  age: 20
+  port: 8082
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/loginDemo?useSSL=false&characterEncoding=utf-8
+    username: root
+    password: li197910
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    #       ddl-auto: create 每次都新建表 update 更新数据 validate 验证标结构属性是否一致
+    show-sql: true

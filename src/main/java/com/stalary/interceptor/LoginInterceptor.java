@@ -40,25 +40,30 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (request.getRequestURI().contains("swagger")) {
+            return true;
+        }
         // 退出时删除session
         if (request.getRequestURI().contains("logout")) {
             request.getSession(false).removeAttribute("user");
             return true;
         }
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if ("ticket".equals(cookie.getName())) {
-                String value = null;
-                if (!StringUtils.isEmpty(cookie.getValue())) {
-                    value = DigestUtil.Decrypt(cookie.getValue());
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("ticket".equals(cookie.getName())) {
+                    String value = null;
+                    if (!StringUtils.isEmpty(cookie.getValue())) {
+                        value = DigestUtil.Decrypt(cookie.getValue());
+                    }
+                    User login = userService.findByTicket(value);
+                    request.getSession().setAttribute("user", login);
+                    log.info("ticket: " + value);
+                    log.info("user: " + login);
                 }
-                User login = userService.findByTicket(value);
-                request.getSession().setAttribute("user", login);
-                log.info("ticket: " + value);
-                log.info("user: " + login);
             }
         }
-        Method method = ((HandlerMethod)handler).getMethod();
+        Method method = ((HandlerMethod) handler).getMethod();
         boolean isLoginRequired = isAnnotationPresent(method, LoginRequired.class);
         if (isLoginRequired) {
             if (request.getSession().getAttribute("user") == null) {
