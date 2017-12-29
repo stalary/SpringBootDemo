@@ -64,8 +64,8 @@ public class UserController {
         return ResultUtil.success(UserContextHolder.get());
     }
 
-    @ApiOperation(value = "登陆")
-    @GetMapping(value = "/login")
+    @ApiOperation(value = "登陆", notes = "传入用户名和密码")
+    @PostMapping(value = "/login")
     public Result userLogin(
             @RequestParam String username,
             @RequestParam String password,
