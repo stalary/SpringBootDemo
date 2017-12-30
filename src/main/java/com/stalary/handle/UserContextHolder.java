@@ -15,7 +15,7 @@ import com.stalary.domain.User;
  * @since 26/12/2017
  */
 public class UserContextHolder {
-        private static ThreadLocal<User>  userThreadLocal = new ThreadLocal<>();
+        private static final ThreadLocal<User>  userThreadLocal = new ThreadLocal<>();
 
         public static  User get(){
             return userThreadLocal.get();

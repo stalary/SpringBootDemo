@@ -45,8 +45,8 @@ public class UserController {
             HttpServletResponse response) {
         String ticket = UUID.randomUUID().toString().replace("-", "");
         Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
-        response.addCookie(cookie);
         cookie.setPath("/");
+        response.addCookie(cookie);
         User newUser = new User();
         newUser.setUsername(register.getUsername());
         String salt = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 5);
@@ -75,8 +75,8 @@ public class UserController {
         }
         String ticket = u.getTicket();
         Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
-        response.addCookie(cookie);
         cookie.setPath("/");
+        response.addCookie(cookie);
         if (u.getPassword().equals(MD5Util.MD5(MD5Util.MD5(login.getPassword()) + u.getSalt()))) {
             return ResultUtil.success("登陆成功");
         }
@@ -88,9 +88,9 @@ public class UserController {
     public Result userLogout(
             HttpServletResponse response) {
         Cookie cookie = new Cookie("ticket", null);
+        cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
-        cookie.setPath("/");
         UserContextHolder.remove();
         return ResultUtil.success("退出成功");
     }
