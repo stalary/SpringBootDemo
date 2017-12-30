@@ -14,6 +14,6 @@ spring:
         enabled: true
   jpa:
      hibernate:
-       ddl-auto: create
+       ddl-auto: update
 #       ddl-auto: create 每次都新建表 update 更新数据 validate 验证标结构属性是否一致
      show-sql: true
