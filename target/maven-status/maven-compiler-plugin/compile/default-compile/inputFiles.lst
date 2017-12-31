@@ -4,6 +4,7 @@
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/StartApplication.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/interceptor/LoginInterceptor.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/annotation/LoginRequired.java
+/Users/mac/SpringBootDemo/src/main/java/com/stalary/filter/CrossOriginFilter.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/domain/User.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/utils/ResultUtil.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/cassandra/Student.java
