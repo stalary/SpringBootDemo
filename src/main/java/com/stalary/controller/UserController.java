@@ -9,6 +9,7 @@ package com.stalary.controller;
 import com.stalary.annotation.LoginRequired;
 import com.stalary.domain.Result;
 import com.stalary.domain.User;
+import com.stalary.enums.ResultEnum;
 import com.stalary.handle.UserContextHolder;
 import com.stalary.service.BookService;
 import com.stalary.service.UserService;
@@ -43,6 +44,9 @@ public class UserController {
     public Result userRegister(
             @RequestBody User register,
             HttpServletResponse response) {
+        if (userService.findByUserName(register.getUsername()) != null) {
+            return ResultUtil.error(ResultEnum.REPEAT_REGISTER);
+        }
         String ticket = UUID.randomUUID().toString().replace("-", "");
         Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
         cookie.setPath("/");
@@ -71,7 +75,7 @@ public class UserController {
             HttpServletResponse response) {
         User u = userService.findByUserName(login.getUsername());
         if (u == null) {
-            return ResultUtil.error(1, "不存在该用户！");
+            return ResultUtil.error(ResultEnum.USER_NOT_EXIST);
         }
         String ticket = u.getTicket();
         Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
@@ -80,7 +84,7 @@ public class UserController {
         if (u.getPassword().equals(MD5Util.MD5(MD5Util.MD5(login.getPassword()) + u.getSalt()))) {
             return ResultUtil.success("登陆成功");
         }
-        return ResultUtil.error(2, "密码错误！");
+        return ResultUtil.error(ResultEnum.PASSWORD_ERROR);
     }
 
     @ApiOperation(value = "退出")

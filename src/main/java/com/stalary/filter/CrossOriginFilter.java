@@ -26,7 +26,6 @@ public class CrossOriginFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-        long begin = System.currentTimeMillis();
 
         HttpServletResponse response = (HttpServletResponse) res;
         response.setHeader("Access-Control-Allow-Origin", allowOrigin);
@@ -38,19 +37,6 @@ public class CrossOriginFilter implements Filter {
 
         chain.doFilter(req, res);
 
-
-        if (logger.isInfoEnabled()) {
-            long end = System.currentTimeMillis();
-            BigDecimal processed = new BigDecimal(end - begin)
-                    .divide(new BigDecimal(1000));
-            String uri = ((HttpServletRequest) req).getRequestURI();
-            //login.do 作为负载均衡健康检查的url,打印日志的话,日志量会很大
-            if (!uri.equals("/login.do")) {
-                logger.info("Processed in {} second(s). URI={}",
-                        FORMAT.format(processed), uri);
-            }
-
-        }
     }
 
     @Override

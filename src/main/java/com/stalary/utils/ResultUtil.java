@@ -1,6 +1,7 @@
 package com.stalary.utils;
 
 import com.stalary.domain.Result;
+import com.stalary.enums.ResultEnum;
 
 /**
  * @author Stalary
@@ -25,6 +26,13 @@ public class ResultUtil {
         Result result = new Result();
         result.setCode(code);
         result.setMsg(msg);
+        return result;
+    }
+
+    public static Result error(ResultEnum resultEnum) {
+        Result result = new Result();
+        result.setCode(resultEnum.getCode());
+        result.setMsg(resultEnum.getMsg());
         return result;
     }
 }
