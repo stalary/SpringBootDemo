@@ -14,9 +14,17 @@
 - aop
 - swagger
 - 跨域处理
+- 使用thymeleaf模版引擎，引入LEGACYHTML5(解决vue编译后需要/的问题)
 
 ### 不足
 - ThreadLocal不使用注解进行限制，退出后有一定几率还能获取到用户信息
 - cookies被禁用时，将无法登陆
+
+### 遇到的坑
+- 跨域问题
+- ThreadLocal的生命周期
+- cookies丢失
+- thymeleaf模版引起默认mode必须要加/
+- 拦截器需要配置
 
 

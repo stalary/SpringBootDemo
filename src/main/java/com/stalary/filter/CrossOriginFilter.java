@@ -16,7 +16,7 @@ import java.util.List;
 public class CrossOriginFilter implements Filter {
 
     private String allowOrigin;
-    private final List<String> allowedOrigins = Arrays.asList("http://localhost:8080");
+    private final List<String> allowedOrigins = Arrays.asList("http://localhost:8080", "http://localhost:8100", "http://login.stalary.com");
 
     private static final Logger logger = LoggerFactory
             .getLogger(CrossOriginFilter.class);
