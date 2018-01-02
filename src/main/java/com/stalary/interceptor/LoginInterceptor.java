@@ -47,7 +47,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         }
         // 退出时删除session
         if (request.getRequestURI().contains("logout")) {
-            request.getSession(false).removeAttribute("user");
+            request.getSession().removeAttribute("user");
             return true;
         }
         Cookie[] cookies = request.getCookies();
