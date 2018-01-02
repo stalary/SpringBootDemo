@@ -17,3 +17,6 @@ spring:
        ddl-auto: update
 #       ddl-auto: create 每次都新建表 update 更新数据 validate 验证标结构属性是否一致
      show-sql: true
+  thymeleaf:
+      cache: false
+      mode: LEGACYHTML5
