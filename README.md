@@ -3,6 +3,7 @@
 ### idea需要安装lombok插件
 ### 数据库文件在src/main/resources中
 [-项目地址](http://login.stalary.com)
+[-前端地址](https://github.com/Clairezyw/Vue-project)
 ### 包含功能
 - spring boot
 - jpa
