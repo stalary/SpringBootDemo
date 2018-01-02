@@ -26,7 +26,6 @@ public class StartApplication {
 		registration.setFilter(crossOriginFilter());
 		registration.addUrlPatterns("*");
 		registration.setName("crossOriginFilter");
-		registration.addInitParameter("allowOrigin", "*");
 		registration.setOrder(1);
 		return registration;
 	}

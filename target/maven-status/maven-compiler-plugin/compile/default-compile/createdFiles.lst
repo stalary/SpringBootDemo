@@ -1,5 +1,3 @@
 com/stalary/aspect/HttpAspect.class
-META-INF/spring-configuration-metadata.json
 com/stalary/domain/Result.class
 com/stalary/utils/ResultUtil.class
-com/stalary/properties/GirlProperties.class

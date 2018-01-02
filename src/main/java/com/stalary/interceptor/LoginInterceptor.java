@@ -65,6 +65,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                 }
             }
         }
+        if (!(handler instanceof HandlerMethod)) {
+            return true;
+        }
         Method method = ((HandlerMethod) handler).getMethod();
         boolean isLoginRequired = isAnnotationPresent(method, LoginRequired.class);
         if (isLoginRequired) {

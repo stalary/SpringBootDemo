@@ -8,6 +8,7 @@
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/domain/User.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/utils/ResultUtil.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/cassandra/Student.java
+/Users/mac/SpringBootDemo/src/main/java/com/stalary/config/WebConfig.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/exception/MyException.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/utils/DigestUtil.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/Swagger2.java
@@ -15,14 +16,13 @@
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/aspect/HttpAspect.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/repository/BookRepository.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/handle/ExceptionHandle.java
-/Users/mac/SpringBootDemo/src/main/java/com/stalary/properties/GirlProperties.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/enums/ResultEnum.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/domain/Result.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/utils/MD5Util.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/controller/BookController.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/service/UserService.java
-/Users/mac/SpringBootDemo/src/main/java/com/stalary/interceptor/InterceptorConfig.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/handle/UserContextHolder.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/controller/UserController.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/domain/Book.java
 /Users/mac/SpringBootDemo/src/main/java/com/stalary/listener/SessionAttributeListener.java
+/Users/mac/SpringBootDemo/src/main/java/com/stalary/controller/IndexController.java

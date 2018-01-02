@@ -5,7 +5,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/loginDemo?characterEncoding=utf-8
+    url: jdbc:mysql://127.0.0.1:3306/loginDemo?characterEncoding=utf-8&useSSL=false
     username: root
     password: li197910
   http:
@@ -17,3 +17,6 @@ spring:
       ddl-auto: update
     #       ddl-auto: create 每次都新建表 update 更新数据 validate 验证标结构属性是否一致
     show-sql: true
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5

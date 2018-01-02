@@ -10,10 +10,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.List;
 
 public class CrossOriginFilter implements Filter {
 
     private String allowOrigin;
+    private final List<String> allowedOrigins = Arrays.asList("http://localhost:8080");
 
     private static final Logger logger = LoggerFactory
             .getLogger(CrossOriginFilter.class);
@@ -26,9 +29,10 @@ public class CrossOriginFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-
+        HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-        response.setHeader("Access-Control-Allow-Origin", allowOrigin);
+        String origin = request.getHeader("Origin");
+        response.setHeader("Access-Control-Allow-Origin", allowedOrigins.contains(origin) ? origin : "");
         response.setHeader("Access-Control-Allow-Methods",
                 "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Credentials", "true");
