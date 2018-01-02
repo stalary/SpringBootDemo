@@ -1,30 +1,19 @@
 package com.stalary.filter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
 
 public class CrossOriginFilter implements Filter {
 
-    private String allowOrigin;
     private final List<String> allowedOrigins = Arrays.asList("http://localhost:8080", "http://localhost:8100", "http://login.stalary.com");
-
-    private static final Logger logger = LoggerFactory
-            .getLogger(CrossOriginFilter.class);
-    public static final NumberFormat FORMAT = new DecimalFormat("0.000");
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        allowOrigin = filterConfig.getInitParameter("allowOrigin");
+
     }
 
     @Override
