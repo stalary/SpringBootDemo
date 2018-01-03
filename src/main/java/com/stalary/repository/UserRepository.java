@@ -1,6 +1,8 @@
 package com.stalary.repository;
 
 import com.stalary.domain.User;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @description
  * @date 26/12/2017
  */
+@CacheConfig(cacheNames = "users")
 public interface UserRepository extends JpaRepository<User,Integer> {
 
     /**
@@ -15,6 +18,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
      * @param tikcet
      * @return
      */
+    @Cacheable
     User findByTicket(String tikcet);
 
     /**

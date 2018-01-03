@@ -16,6 +16,7 @@
 - swagger
 - 跨域处理
 - 使用thymeleaf模版引擎，引入LEGACYHTML5(解决vue编译后需要/的问题)
+- 使用spring-boot缓存存储用户信息
 
 ### 不足
 - ThreadLocal不使用注解进行限制，退出后有一定几率还能获取到用户信息
