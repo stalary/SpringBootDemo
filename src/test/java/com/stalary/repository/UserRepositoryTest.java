@@ -14,14 +14,14 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @date 03/01/2018
  */
 @Slf4j
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 public class UserRepositoryTest {
 
     @Autowired
     UserService userService;
 
-    @Test
+//    @Test
     public void findByTicket() {
         log.info("第一次");
         userService.findByTicket("d9740838740b444495521c40969921b0");
