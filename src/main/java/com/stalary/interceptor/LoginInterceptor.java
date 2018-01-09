@@ -50,21 +50,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             request.getSession().removeAttribute("user");
             return true;
         }
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("ticket".equals(cookie.getName())) {
-                    String value = null;
-                    if (!StringUtils.isEmpty(cookie.getValue())) {
-                        value = DigestUtil.Decrypt(cookie.getValue());
-                    }
-                    User login = userService.findByTicket(value);
-                    request.getSession().setAttribute("user", login);
-                    log.info("ticket: " + value);
-                    log.info("user: " + login);
-                }
-            }
-        }
+        UserContextHolder.set((User) request.getSession().getAttribute("user"));
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }

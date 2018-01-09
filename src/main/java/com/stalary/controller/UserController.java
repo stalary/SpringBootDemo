@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -43,7 +44,7 @@ public class UserController {
     @PostMapping(value = "/register")
     public Result userRegister(
             @RequestBody User register,
-            HttpServletResponse response) {
+            HttpServletRequest request) {
         if (userService.findByUserName(register.getUsername()) != null) {
             return ResultUtil.error(ResultEnum.REPEAT_REGISTER);
         }
@@ -55,9 +56,7 @@ public class UserController {
         newUser.setSalt(salt);
         newUser.setTicket(ticket);
         userService.register(newUser);
-        Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
-        cookie.setPath("/");
-        response.addCookie(cookie);
+        request.getSession().setAttribute("user", newUser);
         return ResultUtil.success(newUser);
     }
 
@@ -72,16 +71,13 @@ public class UserController {
     @PostMapping(value = "/login")
     public Result userLogin(
             @RequestBody User login,
-            HttpServletResponse response) {
+            HttpServletRequest request) {
         User u = userService.findByUserName(login.getUsername());
         if (u == null) {
             return ResultUtil.error(ResultEnum.USER_NOT_EXIST);
         }
         if (u.getPassword().equals(MD5Util.MD5(MD5Util.MD5(login.getPassword()) + u.getSalt()))) {
-            String ticket = u.getTicket();
-            Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
-            cookie.setPath("/");
-            response.addCookie(cookie);
+            request.getSession().setAttribute("user", u);
             return ResultUtil.success("登陆成功");
         }
         return ResultUtil.error(ResultEnum.PASSWORD_ERROR);
@@ -90,11 +86,8 @@ public class UserController {
     @ApiOperation(value = "退出")
     @GetMapping(value = "logout")
     public Result userLogout(
-            HttpServletResponse response) {
-        Cookie cookie = new Cookie("ticket", null);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
+            HttpServletRequest request) {
+        request.getSession().removeAttribute("user");
         UserContextHolder.remove();
         return ResultUtil.success("退出成功");
     }
