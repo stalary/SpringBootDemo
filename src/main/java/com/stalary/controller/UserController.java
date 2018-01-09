@@ -56,7 +56,7 @@ public class UserController {
         newUser.setSalt(salt);
         newUser.setTicket(ticket);
         userService.register(newUser);
-        request.getSession().setAttribute("user", newUser);
+        request.getSession().setAttribute("user", DigestUtil.Encrypt(ticket));
         return ResultUtil.success(newUser);
     }
 
@@ -77,7 +77,7 @@ public class UserController {
             return ResultUtil.error(ResultEnum.USER_NOT_EXIST);
         }
         if (u.getPassword().equals(MD5Util.MD5(MD5Util.MD5(login.getPassword()) + u.getSalt()))) {
-            request.getSession().setAttribute("user", u);
+            request.getSession().setAttribute("user", DigestUtil.Encrypt(u.getTicket()));
             return ResultUtil.success("登陆成功");
         }
         return ResultUtil.error(ResultEnum.PASSWORD_ERROR);
