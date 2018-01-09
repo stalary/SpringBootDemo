@@ -48,9 +48,6 @@ public class UserController {
             return ResultUtil.error(ResultEnum.REPEAT_REGISTER);
         }
         String ticket = UUID.randomUUID().toString().replace("-", "");
-        Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
-        cookie.setPath("/");
-        response.addCookie(cookie);
         User newUser = new User();
         newUser.setUsername(register.getUsername());
         String salt = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 5);
@@ -58,6 +55,9 @@ public class UserController {
         newUser.setSalt(salt);
         newUser.setTicket(ticket);
         userService.register(newUser);
+        Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
+        cookie.setPath("/");
+        response.addCookie(cookie);
         return ResultUtil.success(newUser);
     }
 
@@ -77,11 +77,11 @@ public class UserController {
         if (u == null) {
             return ResultUtil.error(ResultEnum.USER_NOT_EXIST);
         }
-        String ticket = u.getTicket();
-        Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
-        cookie.setPath("/");
-        response.addCookie(cookie);
         if (u.getPassword().equals(MD5Util.MD5(MD5Util.MD5(login.getPassword()) + u.getSalt()))) {
+            String ticket = u.getTicket();
+            Cookie cookie = new Cookie("ticket", DigestUtil.Encrypt(ticket));
+            cookie.setPath("/");
+            response.addCookie(cookie);
             return ResultUtil.success("登陆成功");
         }
         return ResultUtil.error(ResultEnum.PASSWORD_ERROR);
