@@ -8,7 +8,10 @@ package com.stalary.listener;
 
 import com.stalary.domain.User;
 import com.stalary.handle.UserContextHolder;
+import com.stalary.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
@@ -21,10 +24,15 @@ import javax.servlet.http.HttpSessionBindingEvent;
  */
 @WebListener
 public class SessionAttributeListener implements HttpSessionAttributeListener {
+
+    @Autowired
+    private UserService userService;
+
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
         if ("user".equals(event.getName())) {
-            UserContextHolder.set((User)event.getValue());
+            User user = userService.findByTicket((String) event.getValue());
+            UserContextHolder.set(user);
         }
     }
 
@@ -38,7 +46,8 @@ public class SessionAttributeListener implements HttpSessionAttributeListener {
     @Override
     public void attributeReplaced(HttpSessionBindingEvent event) {
         if ("user".equals(event.getName())) {
-            UserContextHolder.set((User)event.getValue());
+            User user = userService.findByTicket((String) event.getValue());
+            UserContextHolder.set(user);
         }
     }
 }

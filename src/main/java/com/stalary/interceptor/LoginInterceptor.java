@@ -53,9 +53,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         if (request.getSession().getAttribute("user") != null) {
             User user = userService.findByTicket(DigestUtil.Decrypt((String) request.getSession().getAttribute("user")));
             UserContextHolder.set(user);
-            if (!(handler instanceof HandlerMethod)) {
-                return true;
-            }
+        }
+        if (!(handler instanceof HandlerMethod)) {
+            return true;
         }
         Method method = ((HandlerMethod) handler).getMethod();
         boolean isLoginRequired = isAnnotationPresent(method, LoginRequired.class);
