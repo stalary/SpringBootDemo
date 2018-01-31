@@ -15,11 +15,11 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     /**
      * 通过cookies的ticker来查找用户
-     * @param tikcet
+     * @param ticket
      * @return
      */
     @Cacheable
-    User findByTicket(String tikcet);
+    User findByTicket(String ticket);
 
     /**
      * 通过用户名来查找用户
