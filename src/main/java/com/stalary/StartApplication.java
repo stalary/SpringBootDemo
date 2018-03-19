@@ -1,6 +1,7 @@
 package com.stalary;
 
 import com.stalary.filter.CrossOriginFilter;
+import com.stalary.properties.Props;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,6 +9,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
 import javax.servlet.Filter;
 
@@ -15,6 +17,7 @@ import javax.servlet.Filter;
 @EnableAutoConfiguration
 @ServletComponentScan
 @EnableCaching
+@Import({Props.class})
 public class StartApplication {
 
 	public static void main(String[] args) {

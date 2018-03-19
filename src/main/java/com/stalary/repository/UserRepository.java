@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepository extends JpaRepository<User,Integer> {
 
     /**
-     * 通过cookies的ticker来查找用户
+     * 通过cookies的ticket来查找用户
      * @param ticket
      * @return
      */

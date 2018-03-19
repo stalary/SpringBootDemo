@@ -20,3 +20,9 @@ spring:
   thymeleaf:
     cache: false
     mode: LEGACYHTML5
+
+props:
+  map:
+    key: 123
+    key1: 456
+  test: 123456
